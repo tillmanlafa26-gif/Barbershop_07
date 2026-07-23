@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vintage Barbershop</title>
   <!--CSS-->
-  <link rel="stylesheet" href="CSS/styles.css" />
+  <link rel="stylesheet" href="CSS/styles.css">
   <link rel="stylesheet" href="CSS/calendar.css">
 </head>
 
@@ -168,7 +168,18 @@
     </div>
   </footer>
   <script src="Js/main.js"></script>
-  <script src="Js/calendar.js"></script> </script>
+  <script src="Js/calendar.js"></script>
+  </script>
+  <!-- ===== Service Details Modal ===== -->
+  <div class="service-modal" id="serviceModal" aria-hidden="true">
+    <div class="service-modal-overlay" id="serviceModalOverlay"></div>
+    <div class="service-modal-content" role="dialog" aria-modal="true" aria-labelledby="serviceModalTitle"> <button
+        class="service-modal-close" id="serviceModalClose" aria-label="Close modal"> × </button>
+      <h3 id="serviceModalTitle">Service Details</h3>
+      <p id="serviceModalPrice" class="service-modal-price"></p>
+      <ul id="serviceModalList" class="service-modal-list"></ul>
+    </div>
+  </div>
 </body>
 
 </html>
