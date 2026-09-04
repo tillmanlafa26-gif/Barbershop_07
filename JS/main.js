@@ -1,5 +1,4 @@
-//Dom Elements
-const yearEl = document.getElementById("year");
+﻿const yearEl = document.getElementById("year");
 const mobileMenu = document.getElementById("mobileMenu");
 const menuBtn = document.getElementById("menuBtn");
 const nav = document.getElementById("nav");
@@ -10,7 +9,6 @@ const callBtn = document.getElementById("callBtn");
 const phoneLink = document.getElementById("phoneLink");
 const featureGrid = document.getElementById("featureGrid");
 
-// ----- Modal Elements -----
 const serviceModal = document.getElementById("serviceModal");
 const serviceModalOverlay = document.getElementById("serviceModalOverlay");
 const serviceModalClose = document.getElementById("serviceModalClose");
@@ -18,7 +16,6 @@ const serviceModalTitle = document.getElementById("serviceModalTitle");
 const serviceModalPrice = document.getElementById("serviceModalPrice");
 const serviceModalList = document.getElementById("serviceModalList");
 
-//Services Data
 const services = [
   {
     id: 1,
@@ -118,7 +115,6 @@ const services = [
   },
 ];
 
-//Navigation Data(array of objects)
 const navLinks = [
   { label: "home", href: "#hero" },
   { label: "services", href: "#features" },
@@ -126,35 +122,26 @@ const navLinks = [
   { label: "contact", href: "#footer" },
 ];
 
-//Helper functions
+const closeServiceModal = () => {
+  if (!serviceModal) return;
+  serviceModal.classList.remove("is-open");
+  serviceModal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+};
 
 const openServiceModal = (serviceId) => {
-  if (
-    !serviceModal ||
-    !serviceModalTitle ||
-    !serviceModalPrice ||
-    !serviceModalList
-  ) {
+  if (!serviceModal || !serviceModalTitle || !serviceModalPrice || !serviceModalList) {
     return;
   }
-  const selectedService = services.find((service) => {
-    return service.id === Number(serviceId);
-  });
-  const closeServiceModal = () => {
-    if (!serviceModal) return;
-    serviceModal.classList.remove("is-open");
-    serviceModal.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
-  };
+
+  const selectedService = services.find((service) => service.id === Number(serviceId));
 
   if (!selectedService) return;
+
   serviceModalTitle.textContent = selectedService.title;
   serviceModalPrice.textContent = `$${selectedService.price}`;
-  serviceModalList.innerHTML = selectedService.details
-    .map((detail) => {
-      return `<li>${detail}</li>`;
-    })
-    .join("");
+  serviceModalList.innerHTML = selectedService.details.map((detail) => `<li>${detail}</li>`).join("");
+
   serviceModal.classList.add("is-open");
   serviceModal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
@@ -162,29 +149,16 @@ const openServiceModal = (serviceId) => {
 
 const renderNavigation = () => {
   try {
-    //destop nav
     if (nav) {
       const navHTML = navLinks
-        .map((link) => {
-          return `
-                <a href="${link.href}" class= nav-link">
-                    ${link.label}
-                    </a>
-            `;
-        })
+        .map((link) => `<a href="${link.href}" class="nav-link">${link.label}</a>`)
         .join("");
       nav.innerHTML = navHTML;
     }
-    //mobile Menu
+
     if (mobileMenu) {
       const mobileHTML = navLinks
-        .map((link) => {
-          return `
-                <a href="${link.href}" class ="mobile-link">
-                    ${link.label}
-                    </a>
-            `;
-        })
+        .map((link) => `<a href="${link.href}" class="mobile-link">${link.label}</a>`)
         .join("");
       mobileMenu.innerHTML = mobileHTML;
     }
@@ -192,66 +166,61 @@ const renderNavigation = () => {
     console.log(error);
   }
 };
+
 renderNavigation();
 
 const handleHeaderOnScroll = () => {
   if (!siteHeader) return;
-
-  if (window.scrollY > 10) {
-    siteHeader.classList.add("is-scrolled");
-  } else {
-    siteHeader.classList.remove("is-scrolled");
-  }
+  siteHeader.classList.toggle("is-scrolled", window.scrollY > 10);
 };
 
-//create a function that renders our futurees to the featureGrid
 const renderFeatures = () => {
   if (!featureGrid) return;
+
   const cardsHTML = services
     .map((service) => {
-      let badgeHTML = "";
-      if (service.popular) {
-        badgeHTML = `<p class="service-badge">Popular Choice</p>`;
-      } else {
-        badgeHTML = `<p class="service-badge alt-badge">Barber Favorite</p>`;
-      }
-      return ` <article class="feature-card"> <img src="${service.image}" alt="${service.alt}" class="feature-img" /> <h3 class="feature-title">${service.title}</h3> <p class="feature-text">${service.description}</p> ${badgeHTML} <p class="service-price">$${service.price}</p> <div class="service-actions"> <button class="service-details-btn" type="button" data-service-id="${service.id}" > View Details </button> </div> </article> `;
+      const badgeHTML = service.popular
+        ? '<p class="service-badge">Popular Choice</p>'
+        : '<p class="service-badge alt-badge">Barber Favorite</p>';
+
+      return `
+        <article class="feature-card">
+          <img src="${service.image}" alt="${service.alt}" class="feature-img" />
+          <h3 class="feature-title">${service.title}</h3>
+          <p class="feature-text">${service.description}</p>
+          ${badgeHTML}
+          <p class="service-price">$${service.price}</p>
+          <div class="service-actions">
+            <button class="service-details-btn" type="button" data-service-id="${service.id}">View Details</button>
+          </div>
+        </article>
+      `;
     })
     .join("");
+
   featureGrid.innerHTML = cardsHTML;
 };
+
 renderFeatures();
 
-//update footer year automatically
 const setCurrentYear = () => {
+  if (!yearEl) return;
   const now = new Date();
   yearEl.textContent = now.getFullYear();
 };
 
 setCurrentYear();
 
-//Toggle mobile menu open/close
 let isMenuOpen = false;
 
 const toggleMobileMenu = () => {
-  if (!mobileMenu) {
-    return;
-  }
-  //create a if statement for menuOpen
-  if (isMenuOpen === false) {
-    mobileMenu.classList.add("is-open");
-    isMenuOpen = true;
-  } else {
-    mobileMenu.classList.remove("is-open");
-    isMenuOpen = false;
-  }
+  if (!mobileMenu) return;
+  mobileMenu.classList.toggle("is-open");
+  isMenuOpen = !isMenuOpen;
 };
 
-//close mobile menu when a link is clicked
 const closedMobileMenu = () => {
-  if (!mobileMenu) {
-    return;
-  }
+  if (!mobileMenu) return;
   mobileMenu.classList.remove("is-open");
   isMenuOpen = false;
 };
@@ -261,30 +230,23 @@ const updateHeadingText = (newText) => {
   heading.textContent = newText;
 };
 
-setCurrentYear();
-
-//event Listener
-//Hamburger menu toggle
 if (menuBtn) {
-  menuBtn.addEventListener("click", () => {
-    toggleMobileMenu();
-  });
+  menuBtn.addEventListener("click", toggleMobileMenu);
 }
 
-//close mobile menu when a mobile link is clicked
 if (mobileMenu) {
   mobileMenu.addEventListener("click", (event) => {
-    //if they clicked an <a> tag, close the menu
-
-    if (event.target.tagName === "A") {
+    if (event.target.closest("a")) {
       closedMobileMenu();
     }
   });
 }
+
 if (featureGrid) {
   featureGrid.addEventListener("click", (event) => {
     const clickedButton = event.target.closest(".service-details-btn");
     if (!clickedButton) return;
+
     const serviceId = clickedButton.dataset.serviceId;
     openServiceModal(serviceId);
   });
@@ -293,38 +255,31 @@ if (featureGrid) {
 if (serviceModalClose) {
   serviceModalClose.addEventListener("click", closeServiceModal);
 }
+
 if (serviceModalOverlay) {
   serviceModalOverlay.addEventListener("click", closeServiceModal);
 }
+
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
     closeServiceModal();
   }
 });
 
-//cta button: "Book Now"
-
 if (ctaBtn) {
   ctaBtn.addEventListener("click", () => {
-    //create a function that updates the heading
-    updateHeadText("Booking coming next --- great choice!");
+    updateHeadingText("Booking coming next --- great choice!");
   });
 }
 
-// call button: try to use the phone number in the footer
 if (callBtn) {
   callBtn.addEventListener("click", () => {
     if (phoneLink) {
-      //update the header witht the phoneNumber when the callBtn Is pressed
-      updateHeadText("Call us at" + phoneLink.textContent);
+      updateHeadingText("Call us at " + phoneLink.textContent);
     } else {
-      updateHeadText("call feature is coming soon!");
+      updateHeadingText("call feature is coming soon!");
     }
   });
 }
-
-//Footer year auto-fills
-//Hamburger Menu opens/closes (works with your mobile-menu.is-open CSS)
-//CTA buttons do something visible(updates hero heading)
 
 window.addEventListener("scroll", handleHeaderOnScroll);
