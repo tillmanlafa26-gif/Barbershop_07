@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap');
 :root {
   --color-bg-primary: #F4EFEA;
   --color-bg-dark: #3A2D28;
@@ -342,6 +342,7 @@ button,input,select { font:inherit; }
 .site-header { background:rgba(25,22,20,.97); box-shadow:0 5px 22px rgba(0,0,0,.2); }
 .header-inner { min-height:76px; }
 .logo { display:flex; align-items:center; gap:11px; font-family:'Playfair Display',serif; font-size:18px; }
+.logo img { width:28px; height:28px; flex:0 0 28px; object-fit:contain; }
 .logo::before { content:''; width:28px; height:28px; display:block; background:url('../assets/Images/logo.png') center/contain no-repeat; filter:invert(1); }
 .nav { gap:8px; }
 .nav-link,.mobile-link { font-size:12px; letter-spacing:.14em; text-transform:uppercase; }
